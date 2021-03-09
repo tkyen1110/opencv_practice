@@ -1,60 +1,37 @@
-FROM ufoym/deepo:all-py36-cu101
+FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 
 ARG USER=adev
 ARG UID=1000
 ARG GID=1000
 
-ENV HADOOP_VERSION=2.7.2
 ENV DEBIAN_FRONTEND=noninteractive
-# LABEL HADOOP_VERSION=2.7.2
 
-RUN DEBIAN_FRONTEND=noninteractive && \
-    apt-get -y update && \
-    apt-get -y install --no-install-recommends curl \
-        unzip \
-        automake \
-        openjdk-8-jdk \
-        openssh-server \
-        openssh-client \
-        lsof \
-        libcupti-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y sudo vim git wget curl zip unzip && \
+    apt-get install -y net-tools iputils-ping && \
+    apt-get install -y build-essential cmake && \
+    apt-get install -y jupyter-core
 
-RUN wget -qO- http://archive.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | \
-    tar xz -C /usr/local && \
-    mv /usr/local/hadoop-${HADOOP_VERSION} /usr/local/hadoop
+# Install python2.7 and python3.6
+RUN apt-get install -y python2.7 python-dev && \
+    apt-get install -y python3.6 python3.6-dev python3.6-distutils && \
+    cd /usr/bin && \
+    rm python3 && \
+    ln -s python3.6 python3
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    HADOOP_INSTALL=/usr/local/hadoop \
-    NVIDIA_VISIBLE_DEVICES=all
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o /root/get-pip2.py && \
+    python2 /root/get-pip2.py && \
+    rm /root/get-pip2.py && \
+    curl https://bootstrap.pypa.io/get-pip.py -o /root/get-pip3.py && \
+    python3 /root/get-pip3.py && \
+    rm /root/get-pip3.py
 
-ENV HADOOP_PREFIX=${HADOOP_INSTALL} \
-    HADOOP_BIN_DIR=${HADOOP_INSTALL}/bin \
-    HADOOP_SBIN_DIR=${HADOOP_INSTALL}/sbin \
-    HADOOP_HDFS_HOME=${HADOOP_INSTALL} \
-    HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_INSTALL}/lib/native \
-    HADOOP_OPTS="-Djava.library.path=${HADOOP_INSTALL}/lib/native"
+# Install python2.7 package
+RUN pip2 install opencv-python==4.1.1.26
 
-ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${HADOOP_BIN_DIR}:${HADOOP_SBIN_DIR} \
-    LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/cuda/targets/x86_64-linux/lib/stubs:${JAVA_HOME}/jre/lib/amd64/server
-
-# Setup Jupyter
-# WORKDIR /app
-
-# COPY vendor ./vendor
-COPY requirements.txt .
-RUN pip install --upgrade --force-reinstall -r requirements.txt 
-    # --no-index --find-links=./vendor
-
-# # Setup path
-# RUN mkdir /root/AFS 
-# RUN echo "cd /root/AFS" >> /root/.bashrc 
-# WORKDIR /root/AFS
-
-# # Setup tensorboard
-# RUN mkdir /root/AFS/tensorboard
-
+# Install python3.6 package
+RUN pip3 install opencv-python && \
+    pip3 install jupyter && \
 
 # Set the home directory to our user's home.
 ENV USER=$USER

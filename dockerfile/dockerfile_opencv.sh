@@ -68,7 +68,7 @@ then
 
 elif [ "$1" = "run" ]
 then
-    HOST_API_PORT="80"
+    HOST_API_PORT="8888"
 
     lCmdList=(
                 "docker run --gpus all -itd \
@@ -79,7 +79,7 @@ then
                     -v /etc/localtime:/etc/localtime:ro \
                     --mount type=bind,source=$SCRIPT_PATH/.bashrc,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
-                    $IMAGE_NAME /bin/bash" \
+                    $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile/run_jupyter.sh" \
                 "docker exec -it $CONTAINER_NAME /bin/bash"
              )
     Fun_EvalCmd "${lCmdList[*]}"
