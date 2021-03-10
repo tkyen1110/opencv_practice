@@ -31,7 +31,7 @@ RUN pip2 install opencv-python==4.1.1.26
 
 # Install python3.6 package
 RUN pip3 install opencv-python && \
-    pip3 install jupyter && \
+    pip3 install jupyter
 
 # Set the home directory to our user's home.
 ENV USER=$USER
