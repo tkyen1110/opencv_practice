@@ -68,7 +68,7 @@ then
 
 elif [ "$1" = "run" ]
 then
-    HOST_API_PORT="8888"
+    HOST_API_PORT="80"
 
     lCmdList=(
                 "docker run --gpus all -itd \
