@@ -13,7 +13,9 @@ RUN apt-get update && \
     apt-get install -y build-essential cmake && \
     apt-get install -y jupyter-core && \
     # For opencv (ImportError: libGL.so.1)
-    apt-get install -y libgl1-mesa-glx
+    apt-get install -y libgl1-mesa-glx && \
+    # ImportError: libSM.so.6
+    apt-get install -y libsm6 libxext6 libxrender-dev
 
 # Install python2.7 and python3.6
 RUN apt-get install -y python2.7 python-dev && \
@@ -36,9 +38,14 @@ RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o /root/get-pip2.py && \
 RUN pip2 install opencv-python==4.1.1.26
 
 # Install python3.6 package
-RUN pip3 install opencv-python && \
+RUN pip3 install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html  && \
+    pip3 install opencv-python && \
     pip3 install jupyter && \
-    pip3 install matplotlib
+    pip3 install matplotlib && \
+    pip3 install pandas && \
+    pip3 install sklearn && \
+    pip3 install scikit-image && \
+    pip3 install tensorboard
 
 # Set the home directory to our user's home.
 ENV USER=$USER
