@@ -1,5 +1,5 @@
-FROM ubuntu:18.04
-# FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
+# FROM ubuntu:18.04
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
 # FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 
 ARG USER=adev
@@ -19,18 +19,30 @@ RUN apt-get update && \
     # ImportError: libSM.so.6
     apt-get install -y libsm6 libxext6 libxrender-dev
 
-# Install python3.6
+# Install python3.8
 RUN apt-get install -y software-properties-common && \
-    apt-get install -y python3-pip python3.6-dev && \
+    apt-get install -y python3-pip python3.8-dev && \
     cd /usr/bin && \
     rm python3 && \
-    ln -s python3.6 python && \
-    ln -s python3.6 python3 && \
+    ln -s python3.8 python && \
+    ln -s python3.8 python3 && \
     ln -s pip3 pip && \
     pip install --upgrade pip
 
-# Install python3.6 package
-# RUN pip3 install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html  && \
+
+# CUDA 10.2
+RUN pip3 install torch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0
+
+# CUDA 11.0
+# RUN pip3 install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+# CUDA 11.1
+# RUN pip3 install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio===0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+
+# CUDA 11.3
+# RUN pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio===0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+
+# Install python3.8 package
 RUN pip3 install opencv-python && \
     pip3 install jupyter && \
     pip3 install matplotlib && \
