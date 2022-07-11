@@ -79,7 +79,7 @@ then
                     -v /etc/localtime:/etc/localtime:ro \
                     --mount type=bind,source=$SCRIPT_PATH/.bashrc,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
-                    $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile/run_jupyter.sh" \
+                    $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile_metavision/run_jupyter.sh" \
                 "docker exec -it $CONTAINER_NAME /bin/bash"
              )
     Fun_EvalCmd "${lCmdList[*]}"

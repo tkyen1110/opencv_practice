@@ -9,12 +9,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ADD metavision.list /etc/apt/sources.list.d
 
-# Install basic apt package
+# Install basic apt packages
 RUN apt-get update && \
     apt-get install -y apt-utils && \
     apt-get install -y sudo vim git wget curl zip unzip && \
     apt-get install -y net-tools iputils-ping && \
     apt-get install -y build-essential cmake
+
+# Install apt packages
+RUN apt-get install -y libnvidia-gl-515
+# RUN apt-get install -y jupyter-core && \
+#     # For opencv (ImportError: libGL.so.1)
+#     apt-get install -y libgl1-mesa-glx && \
+#     # ImportError: libSM.so.6
+#     apt-get install -y libsm6 libxext6 libxrender-dev
 
 # Install python3.7
 RUN apt-get install -y software-properties-common && \
@@ -51,14 +59,6 @@ RUN python3 -m pip install numba llvmlite profilehooks "pytorch_lightning==1.5.1
 
 # Install LibTorch for C++ for Metavision SDK
 # RUN wget https://download.pytorch.org/libtorch/cu111/libtorch-cxx11-abi-shared-with-deps-1.10.0%2Bcu111.zip
-
-
-# RUN apt-get install -y jupyter-core && \
-#     # For opencv (ImportError: libGL.so.1)
-#     apt-get install -y libgl1-mesa-glx && \
-#     # ImportError: libSM.so.6
-#     apt-get install -y libsm6 libxext6 libxrender-dev
-
 
 # Set the home directory to our user's home.
 ENV USER=$USER
