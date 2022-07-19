@@ -1,4 +1,5 @@
-FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04 
+# FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
 
 ARG USER=adev
 ARG UID=1000
@@ -17,7 +18,8 @@ RUN apt-get update && \
     apt-get install -y build-essential cmake
 
 # Install apt packages
-RUN apt-get install -y libnvidia-gl-515
+RUN apt-get install -y libnvidia-gl-515 && \
+    apt-get install -y libcanberra-gtk-module libcanberra-gtk3-module
 # RUN apt-get install -y jupyter-core && \
 #     # For opencv (ImportError: libGL.so.1)
 #     apt-get install -y libgl1-mesa-glx && \
@@ -50,6 +52,9 @@ RUN apt-get install -y metavision-sdk && \
     apt-get install -y metavision-sdk-python3.7
 
 # Install Python package for Metavision SDK
+# CUDA 10.2
+# RUN pip install torch==1.8.2 torchvision==0.9.2 torchaudio==0.8.2 --extra-index-url https://download.pytorch.org/whl/lts/1.8/cu102
+
 # CUDA 11.1
 RUN pip install torch==1.8.2 torchvision==0.9.2 torchaudio==0.8.2 --extra-index-url https://download.pytorch.org/whl/lts/1.8/cu111
 

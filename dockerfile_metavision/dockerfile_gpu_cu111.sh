@@ -51,7 +51,6 @@ function Fun_EvalCmd()
     done
 }
 
-
 if [ "$1" == "build" ]
 then
     export GID=$(id -g)
@@ -68,11 +67,13 @@ then
 
 elif [ "$1" = "run" ]
 then
-    HOST_API_PORT="8881"
+    # Changing shmem size of a docker container
+    # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
+    HOST_API_PORT="888${VERSION:1:1}"
 
     lCmdList=(
                 "docker run --gpus all -itd \
-                    --privileged \
+                    --privileged --shm-size=2g \
                     --name $CONTAINER_NAME \
                     -v $HOST_DIR_PATH:/home/$USER/$HOST_DIR_NAME \
                     -v /tmp/.X11-unix:/tmp/.X11-unix \
