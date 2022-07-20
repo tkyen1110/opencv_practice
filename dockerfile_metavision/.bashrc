@@ -116,5 +116,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export LIBTORCH_DIR_PATH=/home/tkyen/opencv_practice/metavision_sdk/LIBTORCH_DIR_PATH/libtorch/
-
+export DISPLAY=:1
+export LIBTORCH_DIR_PATH=/home/tkyen/libtorch
