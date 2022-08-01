@@ -5,7 +5,7 @@ ARG USER=adev
 ARG UID=1000
 ARG GID=1000
 
-ENV DISPLAY :10
+ENV DISPLAY :0
 ENV DEBIAN_FRONTEND=noninteractive
 
 ADD metavision.list /etc/apt/sources.list.d
@@ -18,13 +18,8 @@ RUN apt-get update && \
     apt-get install -y build-essential cmake
 
 # Install apt packages
-RUN apt-get install -y libnvidia-gl-515 && \
+RUN apt-get install -y libnvidia-gl-470 && \
     apt-get install -y libcanberra-gtk-module libcanberra-gtk3-module
-# RUN apt-get install -y jupyter-core && \
-#     # For opencv (ImportError: libGL.so.1)
-#     apt-get install -y libgl1-mesa-glx && \
-#     # ImportError: libSM.so.6
-#     apt-get install -y libsm6 libxext6 libxrender-dev
 
 # Install python3.7
 RUN apt-get install -y software-properties-common && \
