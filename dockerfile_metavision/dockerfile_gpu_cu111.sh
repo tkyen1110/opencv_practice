@@ -69,8 +69,9 @@ elif [ "$1" = "run" ]
 then
     # Changing shmem size of a docker container
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
-    HOST_API_PORT="888${VERSION:1:1}"
-
+    # HOST_API_PORT="888${VERSION:1:1}"
+    HOST_API_PORT="8881"
+    TENSOR_BOARD_PORT="6006"
     lCmdList=(
                 "docker run --gpus all -itd \
                     --privileged --shm-size=2g \
@@ -80,6 +81,7 @@ then
                     -v /etc/localtime:/etc/localtime:ro \
                     --mount type=bind,source=$SCRIPT_PATH/.bashrc,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
+                    -p $TENSOR_BOARD_PORT:6006 \
                     $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile_metavision/run_jupyter.sh" \
                 "docker exec -it $CONTAINER_NAME /bin/bash"
              )

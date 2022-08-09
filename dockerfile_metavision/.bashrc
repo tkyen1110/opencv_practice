@@ -118,4 +118,5 @@ fi
 
 export DISPLAY=:0
 export LIBTORCH_DIR_PATH=/home/tkyen/libtorch
+export PYTHONPATH=/home/tkyen/opencv_practice/metavision/metavision_sdk
 # ln -s /home/tkyen/opencv_practice/metavision/LIBTORCH_DIR_PATH/libtorch_cu111 /home/tkyen/libtorch
