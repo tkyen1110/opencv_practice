@@ -70,11 +70,12 @@ then
     # Changing shmem size of a docker container
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
     # HOST_API_PORT="888${VERSION:1:1}"
-    HOST_API_PORT="8881"
-    TENSOR_BOARD_PORT="6006"
+    HOST_API_PORT="8882"
+    TENSOR_BOARD_PORT="6002"
     lCmdList=(
                 "docker run --gpus all -itd \
                     --privileged --shm-size=2g \
+                    --restart unless-stopped \
                     --name $CONTAINER_NAME \
                     -v $HOST_DIR_PATH:/home/$USER/$HOST_DIR_NAME \
                     -v /tmp/.X11-unix:/tmp/.X11-unix \
