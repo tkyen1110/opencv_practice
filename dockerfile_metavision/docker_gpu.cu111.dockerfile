@@ -13,7 +13,7 @@ ADD metavision.list /etc/apt/sources.list.d
 # Install basic apt packages
 RUN apt-get update && \
     apt-get install -y apt-utils && \
-    apt-get install -y sudo vim git wget curl zip unzip && \
+    apt-get install -y sudo vim git wget curl zip unzip p7zip-full && \
     apt-get install -y net-tools iputils-ping && \
     apt-get install -y build-essential cmake
 
@@ -59,6 +59,20 @@ RUN python3 -m pip install numba llvmlite profilehooks "pytorch_lightning==1.5.1
 
 # Install LibTorch for C++ for Metavision SDK
 # RUN wget https://download.pytorch.org/libtorch/cu111/libtorch-cxx11-abi-shared-with-deps-1.10.0%2Bcu111.zip
+
+# For MinkowskiEngine
+# https://github.com/NVIDIA/MinkowskiEngine
+RUN apt-get install -y libopenblas-dev &&
+    python3 -m pip install ninja
+
+# cd MinkowskiEngine
+# python setup.py install
+# # To specify blas, CXX, CUDA_HOME and force CUDA installation, use the following command
+# # export CXX=c++; export CUDA_HOME=/usr/local/cuda-11.1; python setup.py install --blas=openblas --force_cuda
+
+# For chrischoy/SpatioTemporalSegmentation
+# https://github.com/chrischoy/SpatioTemporalSegmentation/
+RUN python3 -m pip install open3d
 
 # Set the home directory to our user's home.
 ENV USER=$USER
