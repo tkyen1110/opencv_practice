@@ -61,7 +61,7 @@ then
                     --build-arg USER=$USER \
                     --build-arg UID=$UID \
                     --build-arg GID=$GID \
-                    -f docker_gpu.cu101.dockerfile \
+                    -f docker_gpu.cu111.dockerfile \
                     -t $IMAGE_NAME ."
              )
     Fun_EvalCmd "${lCmdList[*]}"
@@ -78,10 +78,10 @@ then
                     -v /tmp/.X11-unix:/tmp/.X11-unix \
                     -v /etc/localtime:/etc/localtime:ro \
                     --mount type=bind,source=$SCRIPT_PATH/.bashrc,target=/home/$USER/.bashrc \
-                    -p $HOST_API_PORT:8888 \
                     $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile/run_jupyter.sh" \
                 "docker exec -it $CONTAINER_NAME /bin/bash"
              )
+                                #  -p $HOST_API_PORT:8888 \
     Fun_EvalCmd "${lCmdList[*]}"
 
 elif [ "$1" = "exec" ]

@@ -119,4 +119,7 @@ fi
 export DISPLAY=:0
 export LIBTORCH_DIR_PATH=/home/tkyen/libtorch
 export PYTHONPATH="/home/tkyen/opencv_practice/metavision/metavision_sdk:/home/tkyen/opencv_practice/MinkowskiEngine:/home/tkyen/opencv_practice/MinkowskiEngine/MinkowskiEngine"
+export PYTHONPATH="$PYTHONPATH:/home/tkyen/opencv_practice/AAAI_Event_based_detection"
 # ln -s /home/tkyen/opencv_practice/metavision/LIBTORCH_DIR_PATH/libtorch_cu111 /home/tkyen/libtorch
+
+cd ~/opencv_practice/metavision/metavision_sdk

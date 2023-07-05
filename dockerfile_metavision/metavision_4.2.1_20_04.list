@@ -1,0 +1,2 @@
+deb [arch=amd64 trusted=yes] https://apt.prophesee.ai/dists/public/baiTh5si/ubuntu focal sdk
+deb [trusted=yes] http://ppa.launchpad.net/s-schmeisser/ogre-1.12/ubuntu focal main
