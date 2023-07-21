@@ -27,14 +27,23 @@ echo "HOST_DIR_NAME  = "$HOST_DIR_NAME
 
 if [ "$2" == "" ]
 then
-    VERSION="v1.0"
+    VERSION=""
 else
-    VERSION=$2
+    VERSION="$2"
 fi
-echo "VERSION        = "$VERSION
 
-IMAGE_NAME="metavision:$VERSION"
-CONTAINER_NAME="metavision_$VERSION"
+if [ "$3" == "" ]
+then
+    TAG="v1.0"
+else
+    TAG=$3
+fi
+
+echo "VERSION        = "$VERSION
+echo "TAG            = "$TAG
+
+IMAGE_NAME="metavision_$VERSION:$TAG"
+CONTAINER_NAME="metavision_${VERSION}_$TAG"
 echo "IMAGE_NAME     = "$IMAGE_NAME
 echo "CONTAINER_NAME = "$CONTAINER_NAME
 
@@ -60,7 +69,7 @@ then
                     --build-arg USER=$USER \
                     --build-arg UID=$UID \
                     --build-arg GID=$GID \
-                    -f docker_gpu.cu111.dockerfile \
+                    -f docker_cu11.1_metavision_$VERSION.dockerfile \
                     -t $IMAGE_NAME ."
              )
     Fun_EvalCmd "${lCmdList[*]}"
@@ -70,8 +79,9 @@ then
     # Changing shmem size of a docker container
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
     # HOST_API_PORT="888${VERSION:1:1}"
-    HOST_API_PORT="8887"
-    TENSOR_BOARD_PORT="6007"
+    HOST_API_PORT="8885"
+    TENSOR_BOARD_PORT="6005"
+
     lCmdList=(
                 "docker run --gpus all -itd \
                     --privileged --shm-size=16g \
@@ -80,7 +90,7 @@ then
                     -v $HOST_DIR_PATH:/home/$USER/$HOST_DIR_NAME \
                     -v /tmp/.X11-unix:/tmp/.X11-unix \
                     -v /etc/localtime:/etc/localtime:ro \
-                    --mount type=bind,source=$SCRIPT_PATH/.bashrc,target=/home/$USER/.bashrc \
+                    --mount type=bind,source=$SCRIPT_PATH/.bashrc_$VERSION,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
                     -p $TENSOR_BOARD_PORT:6006 \
                     $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile_metavision/run_jupyter.sh" \
