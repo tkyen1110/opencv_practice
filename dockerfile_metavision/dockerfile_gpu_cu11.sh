@@ -101,9 +101,12 @@ elif [ "$1" = "run" ]
 then
     # Changing shmem size of a docker container
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
-    # HOST_API_PORT="888${NAME:1:1}"
-    HOST_API_PORT="8881"
-    TENSOR_BOARD_PORT="6001"
+    # metavision_3.1.2:cuda_11.1_20.04_1 8880 6000
+    # metavision_3.1.2:cuda_11.1_20.04_2 8881 6001
+    # metavision_4.2.1:cuda_11.1_20.04_1 8885 6005
+    # hmnet:cuda_11.3_20.04_1            8890 6010
+    HOST_API_PORT="8890"
+    TENSOR_BOARD_PORT="6010"
 
     lCmdList=(
                 "docker run --gpus all -itd \
