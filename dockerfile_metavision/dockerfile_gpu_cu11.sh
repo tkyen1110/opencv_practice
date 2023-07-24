@@ -17,35 +17,58 @@ SCRIPT_PATH=$(dirname "$SCRIPT")
 # Absolute path to the opencv path
 # e.g. /home/ubuntu/opencv_practice
 HOST_DIR_PATH=$(dirname "$SCRIPT_PATH")
-echo "HOST_DIR_PATH  = "$HOST_DIR_PATH
+echo "HOST_DIR_PATH   = "$HOST_DIR_PATH
 
 # Host directory name
 IFS='/' read -a array <<< "$HOST_DIR_PATH"
 HOST_DIR_NAME="${array[-1]}"
-echo "HOST_DIR_NAME  = "$HOST_DIR_NAME
+echo "HOST_DIR_NAME   = "$HOST_DIR_NAME
 
 
 if [ "$2" == "" ]
 then
-    VERSION=""
+    NAME=""
 else
-    VERSION="$2"
+    NAME="$2"
 fi
 
 if [ "$3" == "" ]
 then
-    TAG="v1.0"
+    IMAGE_TAG="image_tag"
 else
-    TAG=$3
+    IMAGE_TAG=$3
 fi
 
-echo "VERSION        = "$VERSION
-echo "TAG            = "$TAG
+if [ "$4" == "" ]
+then
+    CONTAINER_TAG="container_tag"
+else
+    CONTAINER_TAG=$4
+fi
 
-IMAGE_NAME="metavision_$VERSION:$TAG"
-CONTAINER_NAME="metavision_${VERSION}_$TAG"
-echo "IMAGE_NAME     = "$IMAGE_NAME
-echo "CONTAINER_NAME = "$CONTAINER_NAME
+echo "NAME            = "$NAME
+echo "IMAGE_TAG       = "$IMAGE_TAG
+echo "CONTAINER_TAG   = "$CONTAINER_TAG
+
+IMAGE_NAME="$NAME:$IMAGE_TAG"
+CONTAINER_NAME="${NAME}_$CONTAINER_TAG"
+echo "IMAGE_NAME      = "$IMAGE_NAME
+echo "CONTAINER_NAME  = "$CONTAINER_NAME
+
+IFS='_' read -ra ARR <<< "$IMAGE_TAG"
+CUDA_VERSION_IMAGE="${ARR[1]}"
+IFS='_' read -ra ARR <<< "$CONTAINER_TAG"
+CUDA_VERSION_CONTAINER="${ARR[1]}"
+
+if [ $CUDA_VERSION_IMAGE != $CUDA_VERSION_CONTAINER ];
+then
+    echo "CUDA version of docker image and container should be the same."
+    exit
+fi
+
+CUDA_VERSION=$CUDA_VERSION_IMAGE
+echo "CUDA_VERSION    = "$CUDA_VERSION
+
 
 IFS=$'\n'
 function Fun_EvalCmd()
@@ -69,7 +92,7 @@ then
                     --build-arg USER=$USER \
                     --build-arg UID=$UID \
                     --build-arg GID=$GID \
-                    -f docker_cu11.1_metavision_$VERSION.dockerfile \
+                    -f docker_cu${CUDA_VERSION}_$NAME.dockerfile \
                     -t $IMAGE_NAME ."
              )
     Fun_EvalCmd "${lCmdList[*]}"
@@ -78,9 +101,9 @@ elif [ "$1" = "run" ]
 then
     # Changing shmem size of a docker container
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
-    # HOST_API_PORT="888${VERSION:1:1}"
-    HOST_API_PORT="8885"
-    TENSOR_BOARD_PORT="6005"
+    # HOST_API_PORT="888${NAME:1:1}"
+    HOST_API_PORT="8881"
+    TENSOR_BOARD_PORT="6001"
 
     lCmdList=(
                 "docker run --gpus all -itd \
@@ -90,7 +113,7 @@ then
                     -v $HOST_DIR_PATH:/home/$USER/$HOST_DIR_NAME \
                     -v /tmp/.X11-unix:/tmp/.X11-unix \
                     -v /etc/localtime:/etc/localtime:ro \
-                    --mount type=bind,source=$SCRIPT_PATH/.bashrc_$VERSION,target=/home/$USER/.bashrc \
+                    --mount type=bind,source=$SCRIPT_PATH/.bashrc_$NAME,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
                     -p $TENSOR_BOARD_PORT:6006 \
                     $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile_metavision/run_jupyter.sh" \

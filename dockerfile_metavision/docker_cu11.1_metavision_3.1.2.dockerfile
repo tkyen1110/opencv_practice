@@ -25,8 +25,6 @@ RUN apt-get install -y software-properties-common && \
     ln -s python3.8 python3 && \
     ln -s pip3 pip
 
-RUN python3 -m pip install einops
-
 # conda
 # conda create --name metavision_3.6_3 python=3.6
 # conda activate metavision_3.6_3
@@ -61,6 +59,9 @@ ADD metavision_3.1.2_20_04.list /etc/apt/sources.list.d
 RUN apt-get update && \
     apt-get install -y metavision-sdk
 
+# Install other packages
+RUN python3 -m pip install einops
+
 # Install PyTorch
 # CUDA 11.1
 RUN pip install torch==1.8.2 torchvision==0.9.2 torchaudio==0.8.2 --extra-index-url https://download.pytorch.org/whl/lts/1.8/cu111
@@ -87,7 +88,9 @@ RUN echo "Create $USER account" &&\
     echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
     # Chown all the files to the $USER
-    chown -R $USER:$USER $HOME
+    chown -R $USER:$USER $HOME && \
+    # For apt-get update error
+    chmod 777 /tmp
 
 # Change to the $USER
 WORKDIR $HOME
