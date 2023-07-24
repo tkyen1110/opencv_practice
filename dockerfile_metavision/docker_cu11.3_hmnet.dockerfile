@@ -9,7 +9,9 @@ ENV DISPLAY :0
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install basic apt packages
-RUN apt-get update && \
+# chmod 777 /tmp <= For apt-get update error
+RUN chmod 777 /tmp && \
+    apt-get update && \
     apt-get install -y apt-utils && \
     apt-get install -y sudo vim git wget curl zip unzip p7zip-full && \
     apt-get install -y net-tools iputils-ping && \
@@ -25,12 +27,12 @@ RUN apt-get install -y software-properties-common && \
     ln -s python3.8 python3 && \
     ln -s pip3 pip
 
-# Install other packages for HMNet
-RUN pip install hdf5plugin timm torch_scatter
-
 # Install PyTorch
 # CUDA 11.3
 RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+
+# Install other packages for HMNet
+RUN pip install hdf5plugin timm torch_scatter
 
 # Set the home directory to our user's home.
 ENV USER=$USER
@@ -51,9 +53,7 @@ RUN echo "Create $USER account" &&\
     echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
     # Chown all the files to the $USER
-    chown -R $USER:$USER $HOME && \
-    # For apt-get update error
-    chmod 777 /tmp
+    chown -R $USER:$USER $HOME
 
 # Change to the $USER
 WORKDIR $HOME
