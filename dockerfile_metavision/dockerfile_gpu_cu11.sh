@@ -1,4 +1,11 @@
 #!/bin/bash
+# vim ~/.bashrc
+# alias mv3_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_3.1.2 cuda_11.1_20.04_1 cuda_11.1_20.04_1'
+# alias mv3_2='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_3.1.2 cuda_11.1_20.04_1 cuda_11.1_20.04_2'
+
+# alias mv4_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_4.2.1 cuda_11.1_20.04_1 cuda_11.1_20.04_1'
+
+# alias hmnet_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec hmnet cuda_11.3_20.04_1 cuda_11.3_20.04_1'
 
 # Color
 NC='\033[0m'

@@ -32,7 +32,10 @@ RUN apt-get install -y software-properties-common && \
 RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 
 # Install other packages for HMNet
-RUN pip install hdf5plugin timm torch_scatter
+RUN pip install hdf5plugin timm && \
+    pip install torch-scatter -f https://data.pyg.org/whl/torch-1.12.1+cu113.html && \
+    pip install "opencv-python>=4.5.5.64" "sk-video==1.1.10" && \
+    pip install "numpy==1.23.4" pandas scipy
 
 # Set the home directory to our user's home.
 ENV USER=$USER

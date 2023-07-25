@@ -119,4 +119,4 @@ fi
 export DISPLAY=:0
 export PYTHONPATH="$PYTHONPATH:/home/tkyen/opencv_practice/HMNet"
 
-cd ~/opencv_practice/HMNet
+cd ~/opencv_practice/HMNet/experiments/detection
