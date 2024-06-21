@@ -70,7 +70,7 @@ RUN python3 -m pip install numba llvmlite profilehooks "pytorch_lightning==1.5.1
     python3 -m pip install "torchmetrics==0.7.2" "seaborn==0.11.2" "kornia==0.6.1"
 
 # Install other packages
-RUN python3 -m pip install einops
+RUN python3 -m pip install einops scikit-image filterpy
 
 # Set the home directory to our user's home.
 ENV USER=$USER

@@ -1,5 +1,5 @@
 # FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
-FROM nvidia/cudagl:11.3.0-devel-ubuntu20.04
+FROM nvidia/cudagl:11.1.1-devel-ubuntu20.04
 
 ARG USER=adev
 ARG UID=1000
@@ -28,14 +28,18 @@ RUN apt-get install -y software-properties-common && \
     ln -s pip3 pip
 
 # Install PyTorch
-# CUDA 11.3
-RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+# CUDA 11.1
+RUN pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html && \
+    pip install mmcv-full==1.3.17 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.8.0/index.html
 
-# Install other packages for HMNet
-RUN pip install hdf5plugin timm && \
-    pip install torch-scatter -f https://data.pyg.org/whl/torch-1.12.1+cu113.html && \
-    pip install "opencv-python>=4.5.5.64" "sk-video==1.1.10" && \
-    pip install "numpy==1.23.4" pandas scipy pycocotools
+# Install other packages
+RUN pip install terminaltables, pycocotools
+
+# cython, numpy && \
+#     pip install cityscapesscripts, imagecorruptions, scipy, sklearn && \
+#     pip install matplotlib, mmpycocotools, six, terminaltables && \
+#     pip install asynctest, codecov, flake8, interrogate, isort==4.3.21, kwarray && \
+#     pip install onnx==1.7.0, onnxruntime>=1.8.0, pytest, ubelt, xdoctest>=0.10.0, yapf
 
 # Set the home directory to our user's home.
 ENV USER=$USER

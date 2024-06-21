@@ -2,10 +2,27 @@
 # vim ~/.bashrc
 # alias mv3_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_3.1.2 cuda_11.1_20.04_1 cuda_11.1_20.04_1'
 # alias mv3_2='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_3.1.2 cuda_11.1_20.04_1 cuda_11.1_20.04_2'
+# alias mv3_3='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_3.1.2 cuda_11.1_20.04_1 cuda_11.1_20.04_3'
 
 # alias mv4_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec metavision_4.2.1 cuda_11.1_20.04_1 cuda_11.1_20.04_1'
 
+# alias rvt_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec rvt_22.04 cuda_11.8_22.04_1 cuda_11.8_22.04_1'
+# alias rvt_2='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec rvt_20.04 cuda_11.8_20.04_1 cuda_11.8_20.04_1'
+
 # alias hmnet_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec hmnet cuda_11.3_20.04_1 cuda_11.3_20.04_1'
+# alias hmnet_2='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec hmnet cuda_11.3_20.04_1 cuda_11.3_20.04_2'
+
+# alias eovod_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec eovod cuda_11.1_20.04_1 cuda_11.1_20.04_1'
+
+# alias permatrack_1='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec permatrack cuda_11.3_20.04_1 cuda_11.3_20.04_1'
+# alias permatrack_2='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec permatrack cuda_11.3_20.04_2 cuda_11.3_20.04_2'
+# alias permatrack_3='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec permatrack_18.04 cuda_11.3_18.04_1 cuda_11.3_18.04_1'
+# alias permatrack_4='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec permatrack_22.04 cuda_11.3_22.04_1 cuda_11.3_22.04_1'
+
+# alias mobilesam='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec mobilesam_20.04 cuda_11.3_20.04_1 cuda_11.3_20.04_1'
+# alias mobilesam='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec mobilesam_22.04 cuda_11.7_22.04_1 cuda_11.7_22.04_1'
+
+# alias mit='cd /home/tkyen/workspace/opencv_practice/dockerfile_metavision; ./dockerfile_gpu_cu11.sh exec mit_22.04 cuda_12.1_22.04_1 cuda_12.1_22.04_1'
 
 # Color
 NC='\033[0m'
@@ -110,10 +127,12 @@ then
     # https://www.deepanseeralan.com/tech/changing-shmem-size-of-docker-container/
     # metavision_3.1.2:cuda_11.1_20.04_1 8880 6000
     # metavision_3.1.2:cuda_11.1_20.04_2 8881 6001
+    # metavision_3.1.2:cuda_11.1_20.04_3 8882 6002
     # metavision_4.2.1:cuda_11.1_20.04_1 8885 6005
     # hmnet:cuda_11.3_20.04_1            8890 6010
     # hmnet:cuda_11.3_20.04_2            8891 6011
-
+    # mobilesam:cuda_11.3_20.04_1        8915 6035
+    # mobilesam_22.04:cuda_11.7_22.04_1  8916 6036
     case $CONTAINER_NAME in
         "metavision_3.1.2_cuda_11.1_20.04_1")
             HOST_API_PORT="8880"
@@ -123,6 +142,10 @@ then
             HOST_API_PORT="8881"
             TENSOR_BOARD_PORT="6001"
             ;;
+        "metavision_3.1.2_cuda_11.1_20.04_3")
+            HOST_API_PORT="8882"
+            TENSOR_BOARD_PORT="6002"
+            ;;
         "metavision_4.2.1_cuda_11.1_20.04_1")
             HOST_API_PORT="8885"
             TENSOR_BOARD_PORT="6005"
@@ -131,15 +154,49 @@ then
             HOST_API_PORT="8890"
             TENSOR_BOARD_PORT="6010"
             ;;
-        "hmnet_cuda_11.3_20.04_1")
+        "hmnet_cuda_11.3_20.04_2")
             HOST_API_PORT="8891"
             TENSOR_BOARD_PORT="6011"
+            ;;
+        "eovod_cuda_11.1_20.04_1")
+            HOST_API_PORT="8900"
+            TENSOR_BOARD_PORT="6020"
+            ;;
+        "permatrack_18.04_cuda_11.3_18.04_1")
+            HOST_API_PORT="8905"
+            TENSOR_BOARD_PORT="6025"
+            ;;
+        "permatrack_cuda_11.3_20.04_1")
+            HOST_API_PORT="8906"
+            TENSOR_BOARD_PORT="6026"
+            ;;
+        "permatrack_cuda_11.3_20.04_2")
+            HOST_API_PORT="8907"
+            TENSOR_BOARD_PORT="6027"
+            ;;
+        "permatrack_cuda_11.3_22.04_1")
+            HOST_API_PORT="8910"
+            TENSOR_BOARD_PORT="6030"
+            ;;
+        "mobilesam_cuda_11.3_20.04_1")
+            HOST_API_PORT="8915"
+            TENSOR_BOARD_PORT="6035"
+            MOBILESAM="7860"
+            ;;
+        "mobilesam_22.04_cuda_11.7_22.04_1")
+            HOST_API_PORT="8916"
+            TENSOR_BOARD_PORT="6036"
+            MOBILESAM="7861"
+            ;;
+        "mit_22.04_cuda_12.1_22.04_1")
+            HOST_API_PORT="8810"
+            TENSOR_BOARD_PORT="6010"
             ;;
     esac
 
     lCmdList=(
                 "docker run --gpus all -itd \
-                    --privileged --shm-size=16g \
+                    --privileged --shm-size=32g \
                     --restart unless-stopped \
                     --name $CONTAINER_NAME \
                     -v $HOST_DIR_PATH:/home/$USER/$HOST_DIR_NAME \
@@ -148,6 +205,7 @@ then
                     --mount type=bind,source=$SCRIPT_PATH/.bashrc_$NAME,target=/home/$USER/.bashrc \
                     -p $HOST_API_PORT:8888 \
                     -p $TENSOR_BOARD_PORT:6006 \
+                    -p $MOBILESAM:7860 \
                     $IMAGE_NAME /home/$USER/$HOST_DIR_NAME/dockerfile_metavision/run_jupyter.sh" \
                 "docker exec -it $CONTAINER_NAME /bin/bash"
              )
